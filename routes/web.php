@@ -32,8 +32,7 @@ Route::resource('/admin/fakultas', FacultyController::class);
 
 Route::resource('/admin/prodi', ProdiController::class);
 
-Route::get('/admin/matakuliah', [AdminController::class, 'matakuliah']);
-Route::post('/admin/addmatakuliah', [MataKuliahController::class, 'store']);
+Route::resource('/admin/matakuliah', MataKuliahController::class);
 
 Route::resource('/admin/materi', MateriController::class);
 

@@ -35,43 +35,65 @@
                         </div>
                         <div class="modal-body">
                             <p class="small">Silahkan Masukkan Matakuliah</p>
-                            <form action="/admin/addmatakuliah" method="POST">
+                            <form action="/admin/matakuliah" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="nama">Nama Matakuliah</label>
-                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Prodi">
+                                            <label for="nama">Nama</label>
+                                            <input type="text" name="nama" id="nama" placeholder="Nama mata kuliah" class="form-control  @error('nama') is-invalid @enderror" value="{{ old('nama') }}" autofocus>
+                                            @error('nama')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Prodi</label>
-                                            <select class="form-control" id="prodi" name="prodi">
-                                                <option value="">Pilih Prodi</option>
-                                                @foreach ($prodi as $f)
-
-                                                    <option value="{{ $f['id'] }}">{{ $f['nama'] }}</option>
-
-                                                @endforeach
+                                            <label for="user">Dosen</label>
+                                            <select class="form-control @error('user_id') is-invalid @enderror" name="user_id" id="user_id">
+                                                <option value="">~ Pilih dosen ~</option>
+                                            @foreach ($user as $u)
+                                                @if ($u->level == 'dosen')
+                                                    @if (old('user_id') == $u->id)
+                                                    <option value="{{ $u->id }}" selected>{{ $u->nama }}</option>
+                                                    @else
+                                                    <option value="{{ $u->id }}">{{ $u->nama }}</option>
+                                                    @endif    
+                                                @endif
+                                            @endforeach
                                             </select>
+                                            @error('user_id')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
-
                                         <div class="form-group">
-                                            <label for="nama">Semester</label>
-                                            <input type="text" class="form-control" id="semester" name="semester" placeholder="Semester">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Dosen Pengampu</label>
-                                            <select class="form-control" id="dosen_id" name="dosen_id">
-                                                <option value="">Pilih Dosen</option>
-                                                @foreach ($dosen as $d)
-                                                    @if ($d['level'] === 'dosen')
-                                                        <option value="{{ $d['id'] }}">{{ $d['nama'] }}</option>
-
-                                                    @endif
-
-                                                @endforeach
+                                            <label for="prodi">Program studi</label>
+                                            <select class="form-control @error('prodi_id') is-invalid @enderror" name="prodi_id" id="prodi_id">
+                                                <option value="">~ Pilih program studi ~</option>
+                                            @foreach ($prodi as $p)
+                                                @if (old('prodi_id') == $p->id)
+                                                <option value="{{ $p->id }}" selected>{{ $p->nama }}</option>
+                                                @else
+                                                <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                                                @endif    
+                                            @endforeach
                                             </select>
+                                            @error('prodi_id')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="semester">Semester</label>
+                                            <input type="number" name="semester" id="semester" placeholder="semester" min="1" max="8" class="form-control  @error('semester') is-invalid @enderror" value="{{ old('semester') }}" autofocus>
+                                            @error('semester')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                             @enderror
                                         </div>
                                     </div>
 
@@ -91,38 +113,48 @@
                 <table id="add-row" class="display table table-striped table-hover" >
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Nama</th>
-                            <th style="width: 40%">Prodi</th>
-                            <th style="width: 10%">Action</th>
+                            <th>Dosen</th>
+                            <th>Program Studi</th>
+                            <th>Semester</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
+                            <th>#</th>
                             <th>Nama</th>
-                            <th>Prodi</th>
+                            <th>Dosen</th>
+                            <th>Program Studi</th>
+                            <th>Semester</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($data as $d)
-
+                        @foreach ($matkul as $matkul)
                         <tr>
-                            <td>{{ $d['nama'] }}</td>
-                            <td>{{ $d['prodi'] }}</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Hapus">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $matkul->nama }}</td>
+                            @foreach ($user as $u)
+                                @if ($u->id == $matkul->user_id)
+                                <td>{{ $u->nama }}</td>
+                                @endif
+                            @endforeach
+                            @foreach ($prodi as $p)
+                                @if ($p->id == $matkul->prodi_id)
+                                <td>{{ $p->nama }}</td>
+                                @endif
+                            @endforeach
+                            <td>{{ $matkul->semester }}</td>
+                            <td><a href="/admin/matakuliah/{{ $matkul->id }}/edit"><i class="fas fa-edit"></i></a> | 
+                                <form action="/admin/matakuliah/{{ $matkul->id }}" method="post" class="d-inline">
+                                @method('delete')
+                                @csrf
+                                <button class="text-danger bg-transparent border-0" onclick="return confirm('Yakin ingin mengahpus?')"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                        </tr>   
                         @endforeach
-
                     </tbody>
                 </table>
             </div>

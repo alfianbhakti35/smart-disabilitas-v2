@@ -44,19 +44,6 @@ class AdminController extends Controller
         return response()->download(public_path('/files/format/Format Import Mahasiswa.xlsx'));
     }
     
-    // View Fitur Matakuliah
-    public function matakuliah()
-    {
-        $prodi = Prodi::all();
-
-        return view('admin.matakuliah', [
-            'title' => 'Matakuliah',
-            'data' => MataKuliah::all(),
-            'prodi' => Prodi::all(),
-            'dosen' => User::all()
-        ]);
-    }
-
     // View Fitur Dosen
     public function dosen()
     {

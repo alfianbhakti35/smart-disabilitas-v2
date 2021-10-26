@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class MataKuliah extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'nama',
-        'prodi',
-        'dosen_id',
+        'user_id',
+        'prodi_id',
         'semester'
     ];
 }

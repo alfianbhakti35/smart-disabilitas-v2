@@ -39,7 +39,7 @@
                         <p>Prodi</p>
                     </a>
                 </li>
-                <li class="nav-item {{ Request::is('admin/atakuliah*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/matakuliah*') ? 'active' : '' }}">
                     <a href="/admin/matakuliah" class="" aria-expanded="false">
                         <i class="fas fa-book"></i>
                         <p>Matakuliah</p>
