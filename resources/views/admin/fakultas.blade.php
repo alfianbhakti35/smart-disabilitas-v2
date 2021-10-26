@@ -35,13 +35,19 @@
                         </div>
                         <div class="modal-body">
                             <p class="small">Silahkan Masukkan Nama Fakultas</p>
-                            <form action="/admin/addfakultas" method="POST">
+                            <form action="/admin/fakultas" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <div class="form-group form-group-default">
-                                            <label>Nama</label>
-                                            <input id="nama" name="nama" type="text" class="form-control" placeholder="fill name">
+                                        <div class="form-group">
+                                            <label for="nama">Nama</label>
+                                            <input type="text" name="nama" id="nama" placeholder="nama fakultas" class="form-control  @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
+                                            @error('nama')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                             @enderror
+                                             
                                         </div>
                                     </div>
 
@@ -62,7 +68,7 @@
                     <thead>
                         <tr>
                             <th>Nama</th>
-                            <th style="width: 10%">Action</th>
+                            <th style="width: 15%">Action</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -72,19 +78,16 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($data as $d)
+                        @foreach ($fakultas as $fakultas)
 
                         <tr>
-                            <td>{{ $d['nama'] }}</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Hapus">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
+                            <td>{{ $fakultas['nama'] }}</td>
+                            <td><a href="/admin/fakultas/{{ $fakultas->id }}/edit"><i class="fas fa-edit"></i></a> | 
+                                    <form action="/admin/fakultas/{{ $fakultas->id }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="text-danger bg-transparent border-0" onclick="return confirm('Yakin ingin mengahpus?')"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
                             </td>
                         </tr>
 

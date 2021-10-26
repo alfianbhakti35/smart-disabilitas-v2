@@ -35,38 +35,66 @@
                         </div>
                         <div class="modal-body">
                             <p class="small">Silahkan Masukkan Materi</p>
-                            <form action="/admin/addmateri" method="POST" enctype="multipart/form-data">
+                            <form method="post" action="/admin/materi" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="nama">Judul Materi</label>
-                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Judul Materi">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="materi_tunanetra">Materi Tunanetra</label>
-                                            <input type="file" class="form-control-file" id="materi_tunanetra" name="materi_tunanetra">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="materi_tunarungu">Materi Tunarungu</label>
-                                            <input type="file" class="form-control-file" id="materi_tunarungu" name="materi_tunarungu">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="materi_slow_lerning">Materi Slowlerning</label>
-                                            <input type="text" class="form-control" id="materi_slow_lerning" name="materi_slow_lerning" placeholder="Url Vidio">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Matakuliah</label>
-                                            <select class="form-control" id="fakultas" name="fakultas">
-                                                <option value="">Pilih Matakuliah</option>
-                                                @foreach ($matakuliah as $m)
-
-                                                    <option value="{{ $m['nama'] }}">{{ $m['nama'] }}</option>
-
-                                                @endforeach
+                                            <label for="matkul">Mata Kuliah</label>
+                                            <select class="form-control @error('matkul_id') is-invalid @enderror" name="matkul_id" id="matkul_id" autofocus>
+                                             <option value="">~ Pilih Mata Kuliah ~</option>
+                                             @foreach ($matkul as $matkul)
+                                                 @if (old('matkul_id') == $matkul->id)
+                                                 <option value="{{ $matkul->id }}" selected>{{ $matkul->nama }}</option>
+                                                 @else
+                                                 <option value="{{ $matkul->id }}">{{ $matkul->nama }}</option>
+                                                 @endif
+                                             @endforeach
                                             </select>
+                                            @error('matkul_id')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
-                                    </div>
+                                        <div class="form-group">
+                                            <label for="judul">Judul Materi</label>
+                                            <input type="text" name="judul_materi" id="judul_materi" placeholder="Judul Materi" class="form-control  @error('judul_materi') is-invalid @enderror" value="{{ old('judul_materi') }}">
+                                            @error('judul_materi')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                             @enderror
+                                        </div>
+                                         <div class="form-group">
+                                             <label for="materi_tunanetra">Materi Tuna Netra</label>
+                                             <input type="file" name="materi_tunanetra" id="materi_tunanetra" placeholder="Audio Materi" class="form-control @error('materi_tunanetra') is-invalid @enderror" value="{{ old('materi_tunanetra') }}">
+                                             <p>*Materi Audio</p>
+                                             @error('materi_tunanetra')
+                                             <div class="invalid-feedback">
+                                                 {{ $message }}
+                                             </div>
+                                         @enderror
+                                         </div>
+                                         <div class="form-group">
+                                             <label for="materi_tunarungu">Materi Tuna Rungu</label>
+                                             <input type="file" name="materi_tunarungu" id="materi_tunarungu" placeholder="Video Materi" class="form-control @error('materi_tunarungu') is-invalid @enderror" value="{{ old('materi_tunarungu') }}">
+                                             <p>*Materi PDF</p>
+                                             @error('materi_tunarungu')
+                                             <div class="invalid-feedback">
+                                                 {{ $message }}
+                                             </div>
+                                         @enderror
+                                         </div>
+                                         <div class="form-group">
+                                             <label for="materi_slowlearning">Slow Learning</label>
+                                             <input type="text" name="materi_slowlearning" id="materi_slowlearning" placeholder="Url Video" class="form-control  @error('materi_slowlearning') is-invalid @enderror" value="{{ old('materi_slowlearning') }}">
+                                             @error('materi_slowlearning')
+                                             <div class="invalid-feedback">
+                                                 {{ $message }}
+                                             </div>
+                                              @enderror
+                                         </div>
 
                                 </div>
 
@@ -101,7 +129,11 @@
 
                         <tr>
                             <td>{{ $d['nama'] }}</td>
-                            <td>{{ $d['matakuliah'] }}</td>
+                            @foreach ($matkul as $m)
+                                @if ($m->id == $materi->matkul_id)
+                                <td>{{ $m->nama }}</td>
+                            @endif
+                            @endforeach
                             <td>
                                 <div class="form-button-action">
                                     <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">

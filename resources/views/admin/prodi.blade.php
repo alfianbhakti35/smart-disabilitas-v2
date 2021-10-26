@@ -35,25 +35,37 @@
                         </div>
                         <div class="modal-body">
                             <p class="small">Silahkan Masukkan Nama Prodi</p>
-                            <form action="/admin/addprodi" method="POST">
+                            <form action="/admin/prodi" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="nama">Nama Prodi</label>
-                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Prodi">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Fakultas</label>
-                                            <select class="form-control" id="fakultas" name="fakultas">
-                                                <option value="">Pilih Fakultas</option>
-                                                @foreach ($fakultas as $f)
-
-                                                    <option value="{{ $f['nama'] }}">{{ $f['nama'] }}</option>
-
-                                                @endforeach
+                                            <label for="fakultas">Fakultas</label>
+                                            <select class="form-control @error('fakultas_id') is-invalid @enderror" name="fakultas_id" id="fakultas_id" autofocus>
+                                                <option value="">~ Pilih Fakultas ~</option>
+                                            @foreach ($fakultas as $f)
+                                                 @if (old('fakultas_id') == $f->id)
+                                                 <option value="{{ $f->id }}" selected>{{ $f->nama }}</option>
+                                                 @else
+                                                 <option value="{{ $f->id }}">{{ $f->nama }}</option>
+                                                 @endif
+                                             @endforeach
                                             </select>
+                                            @error('fakultas_id')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
+                                       <div class="form-group">
+                                           <label for="nama">Nama</label>
+                                           <input type="text" name="nama" id="nama" placeholder="nama program studi" class="form-control  @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
+                                           @error('nama')
+                                           <div class="invalid-feedback">
+                                               {{ $message }}
+                                           </div>
+                                            @enderror
+                                       </div>
                                     </div>
 
                                 </div>
@@ -74,7 +86,7 @@
                         <tr>
                             <th>Nama</th>
                             <th style="width: 40%">Fakultas</th>
-                            <th style="width: 10%">Action</th>
+                            <th style="width: 15%">Action</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -85,20 +97,21 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($data as $d)
+                        @foreach ($prodi as $prodi)
 
                         <tr>
-                            <td>{{ $d['nama'] }}</td>
-                            <td>{{ $d['fakultas'] }}</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Hapus">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
+                            <td>{{ $prodi['nama'] }}</td>
+                            @foreach ($fakultas as $f)
+                                @if ($f->id == $prodi->fakultas_id)
+                                <td>{{ $f->nama }}</td>
+                                @endif
+                            @endforeach
+                            <td><a href="/admin/prodi/{{ $prodi->id }}/edit"><i class="fas fa-edit"></i></a> | 
+                                <form action="/admin/prodi/{{ $prodi->id }}" method="post" class="d-inline">
+                                @method('delete')
+                                @csrf
+                                <button class="text-danger bg-transparent border-0" onclick="return confirm('Yakin ingin mengahpus?')"><i class="fas fa-trash-alt"></i></button>
+                                </form>
                             </td>
                         </tr>
 

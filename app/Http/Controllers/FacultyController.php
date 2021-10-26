@@ -14,77 +14,57 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.fakultas',[
+            "title" => "Fakultas",
+            "fakultas" => Faculty::all()
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function edit($id)
+    {
+        return view('admin.e_fakultas',[
+            "title" => "Fakultas",
+            "fakultas" => Faculty::where('id',$id)->first()
+        ]);
+    }
+    
     public function create()
     {
-        //
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
-        $validateData = $request->validate([
-            'nama' => 'required'
+        
+        $validatedDate = $request->validate([
+            'nama'  => 'required',
+        ]);
+        
+        Faculty::create($validatedDate);
+
+        return redirect('/admin/fakultas')->with('success','New Fakultas has been addedd!');
+    }
+
+    public function show($id){
+
+    }
+
+    public function update(Request $request,$id)
+    {
+        $validatedDate = $request->validate([
+            'nama'  => 'required',
         ]);
 
-        Faculty::create($validateData);
-        return redirect('/admin/fakultas')->with('success', 'Fakultas Berhasil di Tambah');
+        Faculty::where('id', $id)->update($validatedDate);
+
+        return redirect('/admin/fakultas')->with('success','Fakultas has been update!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Faculty  $faculty
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Faculty $faculty)
-    {
-        //
-    }
+    public function destroy($id)
+    {   
+        Faculty::destroy($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Faculty  $faculty
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Faculty $faculty)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Faculty  $faculty
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Faculty $faculty)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Faculty  $faculty
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Faculty $faculty)
-    {
-        //
+        return redirect('/admin/fakultas')->with('success','Fakultas has been delted!');
     }
 }

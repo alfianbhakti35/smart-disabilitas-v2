@@ -15,37 +15,37 @@
                     </span>
                     <h4 class="text-section">Fitur</h4>
                 </li>
-                <li class="nav-item {{ ($title === "Mahasiswa") ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('mahasiswa*') ? 'active' : '' }}">
                     <a href="/admin/mahasiswa" class="" aria-expanded="false">
                         <i class="fas fa-user-graduate"></i>
                         <p>Mahasiswa</p>
                     </a>
                 </li>
-                <li class="nav-item {{ ($title === "Dosen") ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('Dosen*') ? 'active' : '' }}">
                     <a href="/admin/dosen" class="" aria-expanded="false">
                         <i class="fas fa-user-tie"></i>
                         <p>Dosen</p>
                     </a>
                 </li>
-                <li class="nav-item {{ ($title === "Fakultas") ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/fakultas*') ? 'active' : '' }}">
                     <a href="/admin/fakultas" class="" aria-expanded="false">
                         <i class="fas fa-university"></i>
                         <p>Fakultas</p>
                     </a>
                 </li>
-                <li class="nav-item {{ ($title === "Prodi") ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/prodi*') ? 'active' : '' }}">
                     <a href="/admin/prodi" class="" aria-expanded="false">
                         <i class="fas fa-bookmark"></i>
                         <p>Prodi</p>
                     </a>
                 </li>
-                <li class="nav-item {{ ($title === "Matakuliah") ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/atakuliah*') ? 'active' : '' }}">
                     <a href="/admin/matakuliah" class="" aria-expanded="false">
                         <i class="fas fa-book"></i>
                         <p>Matakuliah</p>
                     </a>
                 </li>
-                <li class="nav-item {{ ($title === "Materi") ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/materi*') ? 'active' : '' }}">
                     <a href="/admin/materi" class="" aria-expanded="false">
                         <i class="fas fa-book-reader"></i>
                         <p>Materi</p>

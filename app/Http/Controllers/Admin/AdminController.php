@@ -43,26 +43,7 @@ class AdminController extends Controller
     {
         return response()->download(public_path('/files/format/Format Import Mahasiswa.xlsx'));
     }
-
-    // View Fitur Fakultas
-    public function fakultas()
-    {
-        return view('admin.fakultas', [
-            'title' => 'Fakultas',
-            'data' => Faculty::all()
-        ]);
-    }
-
-    // View Fitur Prodi
-    public function prodi()
-    {
-        return view('admin.prodi', [
-            'title' => 'Prodi',
-            'data' => Prodi::all(),
-            'fakultas' => Faculty::all()
-        ]);
-    }
-
+    
     // View Fitur Matakuliah
     public function matakuliah()
     {
@@ -73,16 +54,6 @@ class AdminController extends Controller
             'data' => MataKuliah::all(),
             'prodi' => Prodi::all(),
             'dosen' => User::all()
-        ]);
-    }
-
-    // View Fitur Materi
-    public function materi()
-    {
-        return view('admin.materi', [
-            'title' => 'Materi',
-            'data' => Materi::all(),
-            'matakuliah' => MataKuliah::all()
         ]);
     }
 

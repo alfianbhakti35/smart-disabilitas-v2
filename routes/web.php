@@ -5,7 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\MataKuliahController;
+use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ProdiController;
+use App\Models\Materi;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\RichText\Run;
 
@@ -21,16 +23,20 @@ Route::get('/cek', [AuthController::class, 'cek']);
 
 // Route Untuk Admin
 Route::get('/admin', [AdminController::class, 'index']);
+
 Route::get('/admin/mahasiswa', [AdminController::class, 'mahasiswa']);
 Route::post('/admin/importmahasiswa', [AdminController::class, 'importMahasiswa']);
 Route::get('/admin/formatinfortmahasiswa', [AdminController::class, 'downloadMhs']);
-Route::get('/admin/fakultas', [AdminController::class, 'fakultas']);
-Route::post('/admin/addfakultas', [FacultyController::class, 'store']);
-Route::get('/admin/prodi', [AdminController::class, 'prodi']);
-Route::post('/admin/addprodi', [ProdiController::class, 'store']);
+
+Route::resource('/admin/fakultas', FacultyController::class);
+
+Route::resource('/admin/prodi', ProdiController::class);
+
 Route::get('/admin/matakuliah', [AdminController::class, 'matakuliah']);
 Route::post('/admin/addmatakuliah', [MataKuliahController::class, 'store']);
-Route::get('/admin/materi', [AdminController::class, 'materi']);
+
+Route::resource('/admin/materi', MateriController::class);
+
 Route::get('/admin/dosen', [AdminController::class, 'dosen']);
 Route::post('/admin/adddosen', [AdminController::class, 'storeDosen']);
 

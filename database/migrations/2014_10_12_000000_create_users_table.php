@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('nim');
-            $table->integer('prodi_id');
+            $table->integer('prodi');
             $table->string('level');
             $table->rememberToken();
             $table->timestamps();
