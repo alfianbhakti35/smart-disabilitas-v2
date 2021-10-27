@@ -43,7 +43,7 @@ class AdminController extends Controller
     {
         return response()->download(public_path('/files/format/Format Import Mahasiswa.xlsx'));
     }
-    
+
     // View Fitur Dosen
     public function dosen()
     {

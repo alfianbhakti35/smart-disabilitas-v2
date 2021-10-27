@@ -15,12 +15,11 @@ class CreateMaterisTable extends Migration
     {
         Schema::create('materis', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('matakuliah');
-            $table->string('materi_tunanetra');
+            $table->integer('matkul_id');
+            $table->string('judul_materi');
             $table->string('materi_tunarungu');
-            $table->string('materi_slow_lerning');
-            $table->integer('dosen_id');
+            $table->string('materi_tunanetra');
+            $table->string('materi_slowlearning');
             $table->timestamps();
         });
     }
